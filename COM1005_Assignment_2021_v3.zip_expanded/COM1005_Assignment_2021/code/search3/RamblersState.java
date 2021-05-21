@@ -27,7 +27,7 @@ public class RamblersState extends SearchState {
   // goalPredicate
   public boolean goalPredicate(Search searcher) {
     RamblersSearch msearcher = (RamblersSearch) searcher;
-    Coords tar = msearcher.getGoal(); // get target city
+    Coords tar = msearcher.getGoal(); // get target point
     return (point.getx()==tar.getx() && point.gety()==tar.gety());
   }
 
@@ -36,55 +36,59 @@ public class RamblersState extends SearchState {
     RamblersSearch msearcher = (RamblersSearch) searcher;
     TerrainMap map = msearcher.getMap();
     ArrayList<SearchState> succs = new ArrayList<SearchState>();
-    int max_x_coord = map.getWidth();
-    int max_y_coord = map.getDepth();
+    int max_x_coord = map.getWidth();// max width of map
+    int max_y_coord = map.getDepth();//max Depth of mab
 
        if (point.gety() > 0) {
            Coords suC = new Coords(point.gety()-1,point.getx());
-           int suCH = map.getTmap()[suC.gety()][suC.getx()];
-           int SuLoC;
-           if (suCH <= hight) {
-               SuLoC = 1;
+           int hightOfSuccessorCoords = map.getTmap()[suC.gety()][suC.getx()]; //the point hight
+           int SLocalCost;
+           // loop for comparing the hight of the two points
+           if (hightOfSuccessorCoords <= map.getTmap()[point.gety()][point.getx()]) {
+        	   SLocalCost = 1;
            } else {
-               SuLoC = 1+(suCH-hight);
+        	   SLocalCost = 1+(hightOfSuccessorCoords-map.getTmap()[point.gety()][point.getx()]);
            }
-           succs.add(new RamblersState(suC, suCH,SuLoC));
+           succs.add(new RamblersState(suC, hightOfSuccessorCoords,SLocalCost));
        }
 
        if (point.getx() > 0) {
         Coords suC = new Coords(point.gety(),point.getx()-1);
-        int suCH = map.getTmap()[suC.gety()][suC.getx()];
-        int SuLoC;
-        if (suCH <= hight) {
-            SuLoC = 1;
+        int hightOfSuccessorCoords = map.getTmap()[suC.gety()][suC.getx()];//the point hight
+        int SLocalCost;
+        // loop for comparing the hight of the two points
+        if (hightOfSuccessorCoords <=map.getTmap()[point.gety()][point.getx()]) {
+        	SLocalCost = 1;
         } else {
-            SuLoC = 1+(suCH-hight);
+        	SLocalCost = 1+(hightOfSuccessorCoords-map.getTmap()[point.gety()][point.getx()]);
         }
-        succs.add(new RamblersState(suC, suCH,SuLoC));
+        succs.add(new RamblersState(suC, hightOfSuccessorCoords,SLocalCost));
     }
 
     if (point.gety() < max_y_coord - 1 ) {
         Coords suC = new Coords(point.gety()+1,point.getx());
-        int suCH = map.getTmap()[suC.gety()][suC.getx()];
-        int SuLoC;
-        if (suCH <= hight) {
-            SuLoC = 1;
+        int hightOfSuccessorCoords = map.getTmap()[suC.gety()][suC.getx()];//the point hight
+        int SLocalCost;
+        // loop for comparing the hight of the two points
+        if (hightOfSuccessorCoords <= map.getTmap()[point.gety()][point.getx()]) {
+        	SLocalCost = 1;
         } else {
-            SuLoC = 1+(suCH-hight);
+        	SLocalCost = 1+(hightOfSuccessorCoords-map.getTmap()[point.gety()][point.getx()]);
         }
-        succs.add(new RamblersState(suC, suCH,SuLoC));
+        succs.add(new RamblersState(suC, hightOfSuccessorCoords,SLocalCost));
     }
 
     if (point.gety() < max_x_coord - 1) {
         Coords suC = new Coords(point.gety(),point.getx()+1);
-        int suCH = map.getTmap()[suC.gety()][suC.getx()];
-        int SuLoC;
-        if (suCH <= hight) {
-            SuLoC = 1;
+        int hightOfSuccessorCoords = map.getTmap()[suC.gety()][suC.getx()];//the point hight
+        int SLocalCost;
+        // loop for comparing the hight of the two points
+        if (hightOfSuccessorCoords <= map.getTmap()[point.gety()][point.getx()]) {
+        	SLocalCost = 1;
         } else {
-            SuLoC = 1+(suCH-hight);
+        	SLocalCost = 1+(hightOfSuccessorCoords-map.getTmap()[point.gety()][point.getx()]);
         }
-        succs.add(new RamblersState(suC, suCH,SuLoC));
+        succs.add(new RamblersState(suC, hightOfSuccessorCoords,SLocalCost));
     }
     return succs;
   }
