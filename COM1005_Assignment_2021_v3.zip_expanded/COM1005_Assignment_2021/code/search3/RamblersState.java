@@ -37,7 +37,7 @@ public class RamblersState extends SearchState {
     TerrainMap map = msearcher.getMap();
     ArrayList<SearchState> succs = new ArrayList<SearchState>();
     int max_x_coord = map.getWidth();// max width of map
-    int max_y_coord = map.getDepth();//max Depth of mab
+    int max_y_coord = map.getDepth();//max Depth of map
 
        if (point.gety() > 0) {
            Coords suC = new Coords(point.gety()-1,point.getx());
